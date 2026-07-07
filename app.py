@@ -2,18 +2,38 @@ from flask import Flask, request, jsonify
 
 app = Flask(__name__)
 
-EMAIL = "apiintegration@Activitis.ua"
-PASSWORD = "eZ1#tkF4@jnE5$waJ3_"
+# Список пользователей
+USERS = {
+    "apiintegration@Activitis.ua": {
+        "password": "eZ1#tkF4@jnE5$waJ3_",
+        "apikey": "vdtreSdiaRQ8Uh8TxKC14A0f1",
+        "account_id": "18",
+        "filter_call_filter_data": "4"
+    },
 
-API_KEY = "vdtreSdiaRQ8Uh8TxKC14A0f1"
-ACCOUNT_ID = "18"
+    # Пример второго пользователя
+    "user2@test.com": {
+        "password": "123456",
+        "apikey": "AAAAAAAAAAAAAAAAAAAA",
+        "account_id": "25",
+        "filter_call_filter_data": "7"
+    }
+}
+
+
+@app.route("/", methods=["GET"])
+def home():
+    return jsonify({
+        "service": "Ontime API",
+        "status": "online"
+    })
 
 
 @app.route("/login", methods=["POST"])
 def login():
     data = request.get_json()
 
-    if data is None:
+    if not data:
         return jsonify({
             "success": False,
             "message": "No JSON provided"
@@ -22,11 +42,14 @@ def login():
     email = data.get("email")
     password = data.get("password")
 
-    if email == EMAIL and password == PASSWORD:
+    user = USERS.get(email)
+
+    if user and user["password"] == password:
         return jsonify({
             "success": True,
-            "apikey": API_KEY,
-            "account_id": ACCOUNT_ID
+            "apikey": user["apikey"],
+            "account_id": user["account_id"],
+            "filter[call_filter_data]": user["filter_call_filter_data"]
         })
 
     return jsonify({
