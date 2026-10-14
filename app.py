@@ -21,6 +21,16 @@ USERS = {
         "account_id": "10",
         "company_id": "2148",
         "filter_call_filter_data": "47"
+
+    },
+
+    "apiintegration@pristav.ua": {
+        "password": "V1MGHODnTmANanI",
+        "apikey": "KV1K2DHB9YzkHaBxfqkmc9VWt",
+        "account_id": "17",
+        "company_id": "182",
+        "filter_call_filter_data": "105"
+        
     }
 }
 
